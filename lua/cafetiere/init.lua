@@ -1,10 +1,7 @@
--- cafetiere.nvim - Bridge between catppuccin.nvim and nvim-web-devicons
--- Makes your file icons match Catppuccin's color palette
-
 local M = {}
 local brew = require("cafetiere.brew")
 
---- Apply Catppuccin colors to all nvim-web-devicons icons
+--- Apply Catppuccin color palette to all nvim-web-devicons icons
 ---@param opts table|nil Options
 local function apply_colors(opts)
 	opts = opts or {}
@@ -62,37 +59,14 @@ local function apply_colors(opts)
 		end
 	end
 
-	-- Apply all overrides at once
+	-- Apply all user_opts at once
 	devicons.set_icon(overrides)
 end
 
 --- Setup cafetiere.nvim
 ---@param opts table|nil Configuration options
----   - dark (table|nil): Color overrides for dark themes (mocha, frappe, macchiato)
----   - light (table|nil): Color overrides for light theme (latte)
----
----   Override tables map semantic groups to Catppuccin palette color names.
----   Example:
----     ```lua
----     require("cafetiere").setup({
----       dark = {
----         yellow = "yellow",  -- Use yellow instead of peach for yellow icons
----         grey = "overlay0",  -- Use overlay0 instead of overlay1 for grey icons
----       },
----       light = {
----         yellow = "peach",   -- Use peach for yellow icons in light theme
----       },
----     })
----     ```
----
----   Available semantic groups: grey, red, green, yellow, blue, magenta, cyan,
----   bright_grey, bright_red, bright_green, bright_yellow, bright_blue,
----   bright_magenta, bright_cyan
----
----   Available Catppuccin palette colors: rosewater, flamingo, pink, mauve, red,
----   maroon, peach, yellow, green, teal, sky, sapphire, blue, lavender, text,
----   subtext1, subtext0, overlay2, overlay1, overlay0, surface2, surface1,
----   surface0, base, mantle, crust
+---   - dark (table|nil): user color map for dark themes (mocha, frappe, macchiato)
+---   - light (table|nil): user color map for light theme (latte)
 M.setup = function(opts)
 	opts = vim.tbl_deep_extend("force", {}, opts or {})
 

@@ -1,4 +1,3 @@
--- nvim-web-devicons' cterm_color number -> semantic group -> Catppuccin's palette color
 local M = {}
 
 -- Single source of truth: all semantic group keys that must be present
@@ -19,7 +18,7 @@ M.semantic_group_keys = {
 	"bright_cyan",
 }
 
--- Mapping of semantic color groups to cterm color numbers
+-- Semantic color groups to cterm color numbers mapping
 -- stylua: ignore start
 M.semantic_groups = {
   ["grey"]           = { 0, 8, 16, 59, 66, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243 },
@@ -39,13 +38,13 @@ M.semantic_groups = {
 }
 -- stylua: ignore end
 
--- Validate semantic_groups has exactly the right keys (internal consistency check)
+-- Validate semantic_groups has exactly the right keys
 do
 	local function validate_semantic_groups()
 		-- Check all required keys are present
 		for _, key in ipairs(M.semantic_group_keys) do
 			if not M.semantic_groups[key] then
-				error(string.format("semantic_groups missing required key: %s", key))
+				error(string.format("cafetiere: semantic_groups missing required key: %s", key))
 			end
 		end
 		-- Check no extra keys are present
@@ -58,11 +57,36 @@ do
 				end
 			end
 			if not found then
-				error(string.format("semantic_groups has unexpected key: %s", key))
+				error(string.format("cafetiere: semantic_groups has unexpected key: %s", key))
 			end
 		end
 	end
 	validate_semantic_groups()
+end
+
+--- Validate user_opts only contains valid semantic group keys
+---@param user_opts table User options to validate
+---@param theme_name string Name of the theme
+local function validate_user_opts(user_opts, theme_name)
+	for user_key, _ in pairs(user_opts) do
+		local is_valid = false
+		for _, valid_key in ipairs(M.semantic_group_keys) do
+			if user_key == valid_key then
+				is_valid = true
+				break
+			end
+		end
+		if not is_valid then
+			error(
+				string.format(
+					"cafetiere: %s: invalid semantic group '%s'. Valid groups: %s",
+					theme_name,
+					user_key,
+					table.concat(M.semantic_group_keys, ", ")
+				)
+			)
+		end
+	end
 end
 
 --- Validate that a theme contains all required semantic groups
@@ -73,13 +97,13 @@ local function validate_theme(theme, theme_name)
 	for _, group_key in ipairs(M.semantic_group_keys) do
 		local color = theme[group_key]
 		if not color then
-			error(string.format("Theme '%s' missing semantic group: %s", theme_name, group_key))
+			error(string.format("cafetiere: %s: missing semantic group: %s", theme_name, group_key))
 		end
 		-- Validate it's a string (palette color should be a string)
 		if type(color) ~= "string" then
 			error(
 				string.format(
-					"Theme '%s' has invalid type for group '%s': expected string, got %s",
+					"cafetiere: %s: invalid type for group '%s': expected string, got %s",
 					theme_name,
 					group_key,
 					type(color)
@@ -90,12 +114,15 @@ local function validate_theme(theme, theme_name)
 	return theme
 end
 
---- Map Catppuccin palette colors to semantic groups for dark theme
+--- Catppuccin palette colors to semantic groups map for dark theme
 ---@param palette table Catppuccin palette
----@param overrides table|nil Optional overrides mapping semantic groups to palette color names (e.g., {yellow = "yellow"})
+---@param user_opts table|nil Optional user_opts semantic groups to palette color names mapping
 ---@return table theme Semantic color mapping
-M.dark = function(palette, overrides)
-	overrides = overrides or {}
+M.dark = function(palette, user_opts)
+	user_opts = user_opts or {}
+
+	-- Validate user_opts contains only valid semantic groups
+	validate_user_opts(user_opts, "dark")
 
 	-- Default mapping
 	local defaults = {
@@ -115,15 +142,15 @@ M.dark = function(palette, overrides)
 		["bright_cyan"] = "sapphire",
 	}
 
-	-- Merge with user overrides
-	local mapping = vim.tbl_extend("force", defaults, overrides)
+	-- Merge with user_opts
+	local mapping = vim.tbl_extend("force", defaults, user_opts)
 
 	-- Build theme by looking up palette colors
 	local theme = {}
 	for group, palette_key in pairs(mapping) do
 		local color = palette[palette_key]
 		if not color then
-			error(string.format("dark: palette has no color named '%s' for group '%s'", palette_key, group))
+			error(string.format("cafetiere: dark: palette has no color named '%s' for group '%s'", palette_key, group))
 		end
 		theme[group] = color
 	end
@@ -131,12 +158,15 @@ M.dark = function(palette, overrides)
 	return validate_theme(theme, "dark")
 end
 
---- Map Catppuccin palette colors to semantic groups for light theme
+--- Catppuccin palette colors to semantic groups map for light theme
 ---@param palette table Catppuccin palette
----@param overrides table|nil Optional overrides mapping semantic groups to palette color names (e.g., {grey = "overlay0"})
+---@param user_opts table|nil Optional user_opts semantic groups to palette color names mapping
 ---@return table theme Semantic color mapping
-M.light = function(palette, overrides)
-	overrides = overrides or {}
+M.light = function(palette, user_opts)
+	user_opts = user_opts or {}
+
+	-- Validate user_opts contains only valid semantic groups
+	validate_user_opts(user_opts, "light")
 
 	-- Default mapping
 	local defaults = {
@@ -156,15 +186,15 @@ M.light = function(palette, overrides)
 		["bright_cyan"] = "sapphire",
 	}
 
-	-- Merge with user overrides
-	local mapping = vim.tbl_extend("force", defaults, overrides)
+	-- Merge with user_opts
+	local mapping = vim.tbl_extend("force", defaults, user_opts)
 
 	-- Build theme by looking up palette colors
 	local theme = {}
 	for group, palette_key in pairs(mapping) do
 		local color = palette[palette_key]
 		if not color then
-			error(string.format("light: palette has no color named '%s' for group '%s'", palette_key, group))
+			error(string.format("cafetiere: light: palette has no color named '%s' for group '%s'", palette_key, group))
 		end
 		theme[group] = color
 	end
