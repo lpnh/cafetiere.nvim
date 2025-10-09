@@ -3,8 +3,8 @@
 a smol Neovim plugin that brews soothing warm icons, with your favorite
 color flavors.
 
-cafetiere blends the Catppuccin palettes with the icons provided by
-nvim-web-devicons, ensuring your icons always match your colorscheme.
+cafetiere blends the `catppuccin` palette into `nvim-web-devicons`, ensuring
+they always match your colorscheme.
 
 ## Requirements
 
