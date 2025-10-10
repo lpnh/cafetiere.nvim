@@ -1,9 +1,8 @@
 # cafetiere.nvim
 
-a smol Neovim plugin that brews soothing warm icons, with your favorite
-color flavors.
+Brew your favorite icons with your favorite flavor.
 
-cafetiere blends the `catppuccin` palette into `nvim-web-devicons`, ensuring
+`cafetiere` blends the `catppuccin` palette into `nvim-web-devicons` icons so
 they always match your colorscheme.
 
 ## Requirements
@@ -28,22 +27,19 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ## Usage
 
-### Setup
-
-Just call `setup` and the plugin will automatically detect your current
-Catppuccin flavor and apply the palette accordingly. It also handles
-colorscheme changes, so your icons stay in sync when you switch flavors.
+Call `setup` after your `catppuccin` and `nvim-web-devicons` configuration:
 
 ```lua
 require("cafetiere").setup()
 ```
 
-Note: make sure this happens after your `catppuccin` and `nvim-web-devicons` configuration.
+The plugin automatically detects your current flavor and updates the icons
+accordingly. Even when you change themes.
 
-### Configuration
+### Customization
 
-To modify the default color mapping, you just need to apply the desired
-Catppuccin color to one or more semantic color group you'd like to change.
+You can override the default color mapping by assigning Catppuccin colors to
+semantic groups.
 
 #### Available Options
 
@@ -73,7 +69,7 @@ require("cafetiere").setup({
 })
 ```
 
-#### Default values
+#### Default mappings
 
 ```lua
 dark = {
@@ -113,29 +109,12 @@ light = {
 
 ## How It Works
 
-cafetiere acts as a bridge between
-[nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) and
-[catppuccin.nvim](https://github.com/catppuccin/nvim):
+`cafetiere` maps `nvim-web-devicons`' `cterm_color` numbers to 14 semantic
+groups (grey, red, green, yellow, blue, magenta, cyan + bright variants), then
+applies your current Catppuccin palette to those groups.
 
-- Reading the Catppuccin palette for the current flavor
-- Reading all the nvim-web-devicons icons and their `cterm_color` values
-- Mapping semantic groups to Catppuccin colors and `cterm_color` numbers to
-  semantic groups
-- Overriding each icon color with the corresponding Catppuccin color
-
-## Rationale
-
-The plugin uses 14 semantic color groups based on the standard 16 terminal
-colors (red, green, yellow, blue, magenta, cyan, and their bright variations),
-with grey replacing black and white. Some of the reasons behind this choice:
-the familiar color categories, enough color distinction between different icon
-types, and consistent icon appearance across all Catppuccin flavors.
-
-Long story short, the `cterm_color` numbers to semantic groups mapping
-abstraction has two purposes:
-
-- Provide some ergonomics and flexibility to the customization
-- Achieve visual coherence without losing the original semantic color for each icon
+This ensures icons stay visually coherent across all Catppuccin flavors while
+preserving their original semantic colors.
 
 ## Acknowledgments
 
