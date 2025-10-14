@@ -1,5 +1,6 @@
-local M = {}
 local brew = require("cafetiere.brew")
+
+local M = {}
 
 --- Apply Catppuccin color palette to all nvim-web-devicons icons
 ---@param opts table|nil Options
