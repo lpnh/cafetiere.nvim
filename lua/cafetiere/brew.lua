@@ -2,6 +2,15 @@ local recipe = require("cafetiere.recipe")
 
 local M = {}
 
+-- Reverse lookup table for cterm -> semantic group mapping
+local cterm_to_semantic_group = {}
+
+for semantic_group, cterm_numbers in pairs(recipe.semantic_groups) do
+	for _, n in ipairs(cterm_numbers) do
+		cterm_to_semantic_group[n] = semantic_group
+	end
+end
+
 --- Filter user_opts to only contain valid semantic group keys.
 --- Returns a filtered copy with invalid keys removed and warnings issued.
 ---@param user_opts table User options to filter
@@ -76,19 +85,7 @@ M.light = function(palette, user_opts) return brew_theme(palette, user_opts, "li
 ---@return string|nil group The semantic group name (e.g., "red", "blue", etc.)
 M.find_semantic_group = function(cterm_color)
 	local num = tonumber(cterm_color)
-	if not num then
-		return nil
-	end
-
-	for semantic_group, cterm_numbers in pairs(recipe.semantic_groups) do
-		for _, n in ipairs(cterm_numbers) do
-			if n == num then
-				return semantic_group
-			end
-		end
-	end
-
-	return nil
+	return num and cterm_to_semantic_group[num] or nil
 end
 
 return M
