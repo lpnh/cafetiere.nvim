@@ -7,18 +7,18 @@ they always match your colorscheme.
 
 ## Screenshots
 
-`nvim-web-devicons` defaults (left) and `catppuccin`'s Mocha and Latte (right)
+Left: `nvim-web-devicons` defaults | Right: `catppuccin` Mocha and Latte
 
 <details>
   <summary>Dark theme</summary>
-    <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/f3c3d8f8-547b-4270-b052-2b17abfd0be6" />
-    <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/0f745723-3829-42b0-9609-420b6832c9a8" />
+  <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/f3c3d8f8-547b-4270-b052-2b17abfd0be6" />
+  <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/0f745723-3829-42b0-9609-420b6832c9a8" />
 </details>
 
 <details>
   <summary>Light theme</summary>
-    <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/d279cefb-e68c-42bf-947c-94eb60890dca" />
-    <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/d95f2df4-6ad2-421f-a035-cd22f9c0e267" />
+  <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/d279cefb-e68c-42bf-947c-94eb60890dca" />
+  <img width="114" height="961" alt="Image" src="https://github.com/user-attachments/assets/d95f2df4-6ad2-421f-a035-cd22f9c0e267" />
 </details>
 
 ## Requirements
