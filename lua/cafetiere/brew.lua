@@ -1,31 +1,5 @@
 local recipe = require("cafetiere.recipe")
 
--- Validate semantic_groups has exactly the right keys
-do
-	local function validate_semantic_groups()
-		-- Check all required keys are present
-		for _, key in ipairs(recipe.semantic_group_keys) do
-			if not recipe.semantic_groups[key] then
-				error(string.format("cafetiere: semantic_groups missing required key: %s", key))
-			end
-		end
-		-- Check no extra keys are present
-		for key, _ in pairs(recipe.semantic_groups) do
-			local found = false
-			for _, expected_key in ipairs(recipe.semantic_group_keys) do
-				if key == expected_key then
-					found = true
-					break
-				end
-			end
-			if not found then
-				error(string.format("cafetiere: semantic_groups has unexpected key: %s", key))
-			end
-		end
-	end
-	validate_semantic_groups()
-end
-
 local M = {}
 
 --- Filter user_opts to only contain valid semantic group keys.
